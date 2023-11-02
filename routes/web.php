@@ -1,5 +1,10 @@
 <?php
 
+use App\Livewire\Auth\Login;
+use App\Livewire\Home;
+use App\Livewire\Pages\Settings\ManageDepartment;
+use App\Livewire\Pages\Settings\Settings;
+use App\Livewire\Pages\SystemUsers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+/**
+ * Authenication Route
+ */
+Route::get('/', Login::class);
+
+
+
+
+/**
+ * Admin Livewire Route
+ */
+Route::prefix('/admin')->middleware('user_auth')->group(function () {
+    Route::get("/dashboard", Home::class)->name('admin.dashboard');
+    Route::get("/users", SystemUsers::class)->name('admin.users');
+    Route::get('/manage_department', ManageDepartment::class)->name('admin.manage_department');
 });

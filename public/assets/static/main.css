@@ -1,0 +1,10 @@
+.aside-nav {
+    overflow-y: hidden;
+}
+
+/* Mobile Break point */
+@media (max-width: 768px) {
+    .mobile-padding {
+        padding: 30px;
+    }
+}
