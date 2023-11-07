@@ -2,40 +2,53 @@
 
 namespace App\Livewire\Auth;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Component;
 
 class Login extends Component
 {
-    #[Rule('required|email|unique:users')]
-    public $email = 'admin@femtechit.com';
 
-    #[Rule('required|min:6')]
-    public $password = '123456';
+    /**
+     * @var string
+     */
+    #[Rule('required|email')]
+    public string $email = "admin@femtechit.com";
 
-    public $loading = false;
+    /**
+     * @var string
+     */
+    #[Rule('required|min:5|max:32')]
+    public string $password = "123456";
 
-    public function login()
+    /**
+     * @var bool
+     */
+    public bool $isLoading = false;
+
+    /**
+     * @return mixed
+     */
+    public function render()
+    {
+        return auth_layout();
+    }
+
+
+    public function performLogin()
     {
         $this->validate();
 
-        $this->loading = true;
-        $user = User::where('email', '=', $this->email)->first();
+        $credentials = [
+            'email' => $this->email,
+            'password' => $this->password
+        ];
 
-        if ($user && Hash::check($this->password, $user->password)) {
-            session()->put('User', $user->id);
-            return $this->redirect('admin/users');
+        if(auth()->attempt($credentials)){
+           $this->redirectRoute('dashboard');
+        }else{
+            session()->flash('message', 'Invalid Username or Password, Please check and try again');
         }
-        $this->loading = false;
 
-        session()->flash('danger', 'Invalid Login Credentials');
-        return $this->redirect('/');
     }
 
-    public function render()
-    {
-        return view('livewire.auth.login')->layout('components.layouts.header');
-    }
 }

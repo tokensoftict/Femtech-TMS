@@ -1,48 +1,49 @@
-<!-- Section: Design Block -->
-<section class="text-center">
-    <!-- Background image -->
-    <div class="p-5 bg-image" style="
-        background-image: url('https://mdbootstrap.com/img/new/textures/full/171.jpg');
-        height: 300px;
-        "></div>
-    <!-- Background image -->
-    <div class="card mx-1 mx-md-5 shadow-5-strong" style="
-        margin-top: -100px;
-        background: hsla(0, 0%, 100%, 0.8);
-        backdrop-filter: blur(30px);
-        ">
-        <div class="card-body py-5 px-md-5">
-            <div class="row d-flex justify-content-center">
-                <div class="col-lg-4 mobile-padding">
-                    <h2 class="fw-bold mb-5">FEMITECH | TMS</h2>
+@section('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/dashforge.auth.css') }}">
+@endsection
 
-                    <div class="d-flex justify-content-center mb-3">
-                        <div wire:loading class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading</span>
-                        </div>
+<div>
+    <div class="content content-fixed content-auth">
+        <div class="container">
+            <div class="media align-items-stretch justify-content-center ht-100p pos-relative">
+                <div class="media-body align-items-center d-none d-lg-flex">
+                    <div class="mx-wd-600">
+                        <img src="{{ asset('assets/img/img15.png') }}" class="img-fluid" alt="">
                     </div>
-                    
-                    <form wire:submit='login'>
-                        <!-- Email input -->
-                        <div class="form-outline mb-4">
-                            <input type="email" id="form3Example3" class="form-control" wire:model='email' />
-                            <label class="form-label" for="form3Example3">Email address</label>
+                    <div class="pos-absolute b-0 l-0 tx-12 tx-center">
+                    </div>
+                </div><!-- media-body -->
+                <div class="sign-wrapper mg-lg-l-50 mg-xl-l-60">
+                    <div class="wd-100p">
+                        <h3 class="tx-color-01 mg-b-5">Sign In</h3>
+                        <p class="tx-color-03 tx-16 mg-b-40">Welcome back! Please sign in to continue.</p>
+                        @if(session()->has('message'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
+                        <div class="form-group">
+                            <label>Email address</label>
+                            <input type="email" wire:model.defer="email" class="form-control" placeholder="Enter Your Email Address">
+                            @error('email') <span class="d-block text-danger">{{ $message }}</span> @enderror
                         </div>
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between mg-b-5">
+                                <label class="mg-b-0-f">Password</label>
+                                <a href="#" class="tx-13">Forgot password?</a>
+                            </div>
 
-                        <!-- Password input -->
-                        <div class="form-outline mb-4">
-                            <input type="password" id="form3Example4" class="form-control" wire:model='password' />
-                            <label class="form-label" for="form3Example4">Password</label>
+                            <input type="password" wire:model.defer="password" class="form-control" placeholder="Enter Your Password">
+                            @error('password') <span class="d-block text-danger">{{ $message }}</span> @enderror
                         </div>
-
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-primary btn-block mb-4">
-                            Sign in
+                        <button wire:click="performLogin" wire:target="performLogin" wire:loading.attr="disabled" class="btn btn-brand-02 w-100">
+                            Sign In
+                            <i wire:target="performLogin" wire:loading class="fa fa-spinner  fa-spin"></i>
                         </button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-<!-- Section: Design Block -->
+</div>
+
